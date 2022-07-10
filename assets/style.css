@@ -1,0 +1,23 @@
+:root {
+    --background-color: #e9ecef;
+    --border-color: #ccd5ae;
+    --text-color: #33272a;
+    --dark-mode: rgb(23, 26, 35)
+}
+
+/* universal styling */
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    font-size: 30px;
+    font-weight: 530;
+    background-image: url(../assets/images/layered-waves-haikei.png);
+    background-repeat: no-repeat;
+    background-size: 3000px 150px;
+    color: whitesmoke;
+}
+  
