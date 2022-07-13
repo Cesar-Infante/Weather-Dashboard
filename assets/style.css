@@ -26,34 +26,38 @@ header {
     font-size: 30px;
     font-weight: 530;
     color: white;
-    background: linear-gradient(-45deg, #baab6a, #426b65, #204b5e);
+    background: linear-gradient(-45deg, #355c7d, #69d2e7);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
 }
 
 .left-content {
     height: 40vh;
+    margin-top: 10px;
 }
 
 #todays-weather {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 #future-forecast {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 10px;
     padding: 10px;
     margin: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .each-forecast {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 10px;
     padding: 5px;
     margin: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 footer {
@@ -62,7 +66,7 @@ footer {
     padding: 10px;
     margin-top: 28%;
     height: 50px;
-    background: linear-gradient(-45deg, #baab6a, #426b65, #204b5e);
+    background: linear-gradient(-45deg, #355c7d, #69d2e7);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
 }
