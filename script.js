@@ -31,7 +31,7 @@ function getWeatherData() {
 getWeatherData()
 
 const showWeatherData = (data) => {
-    let { humidity, pressure, sunrise, sunset, wind_speed } = data.current
+    let { humidity, uvi, sunrise, sunset, wind_speed } = data.current
 
     timeZone.textContent = data.timezone;
     countryEl.textContent = `${data.lat}N ${data.lon}E`
@@ -39,14 +39,14 @@ const showWeatherData = (data) => {
     const template = `
     <div class="weather-item">
       <div>Humidity</div>
-      <div>${humidity}</div>
+      <div>${humidity}%</div>
     </div>
     <div class="weather-item">
-      <div>Pressure</div>
-      <div>${pressure}</div>
+      <div>UV Index</div>
+      <div>${uvi}%</div>
     </div>
     <div class="weather-item">
-      <div>wind Speed</div>
+      <div>Wind Speed</div>
       <div>${wind_speed}</div>
     </div>
     <div class="weather-item">
