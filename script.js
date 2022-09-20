@@ -33,14 +33,18 @@ timeEl.textContent = moment().format('hh:mm A');
 const weatherBtn = document.getElementById('btn')
 
 weatherBtn.addEventListener('click', function () {
-  navigator.geolocation.getCurrentPosition((success) => {
-    let { latitude, longitude } = success.coords
+  window.navigator.geolocation.getCurrentPosition((success, error) => {
+    if (error) {
+      console.log('User Denied Request')
+    } else {
+      let { latitude, longitude } = success.coords
 
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${apiKey}`).then(res => res.json()).then(data => {
+      fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${apiKey}`).then(res => res.json()).then(data => {
 
-      console.log(data)
-      showWeatherData(data);
-    })
+        console.log(data)
+        showWeatherData(data);
+      })
+    }
   })
 });
 
