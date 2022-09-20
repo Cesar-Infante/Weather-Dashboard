@@ -19,7 +19,7 @@ function getWeatherData() {
 
         let { latitude, longitude } = success.coords;
 
-        fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${apiKey}`).then(res => res.json()).then(data => {
+        fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${apiKey}`).then(res => res.json()).then(data => {
 
             console.log(data)
             showWeatherData(data);
@@ -32,6 +32,10 @@ getWeatherData()
 
 const showWeatherData = (data) => {
     let { humidity, pressure, sunrise, sunset, wind_speed } = data.current
+
+    timeZone.textContent = data.timezone;
+    countryEl.textContent = `${data.lat}N ${data.lon}E`
+
     const template = `
     <div class="weather-item">
       <div>Humidity</div>
@@ -55,4 +59,29 @@ const showWeatherData = (data) => {
     </div>
     `
     saferInnerHTML(currentWeatherItemsEl, template)
+
+    let otherDayForcast = ''
+    data.daily.forEach((day, idx) => {
+        if (idx === 0) {
+            const currentTemp = `
+            <img src="http://openweathermap.org/img/wn//${day.weather[0].icon}@4x.png" alt="weather icon" class="w-icon">
+            <div class="other">
+                <div class="day">${window.moment(day.dt * 1000).format('dddd')}</div>
+                <div class="temp">Night - ${day.temp.night}&#176;F</div>
+                <div class="temp">Day - ${day.temp.day}&#176;F</div>
+            </div>
+            `
+            saferInnerHTML(currentTempEl, currentTemp)
+        } else {
+            const otherDaysTemp = otherDayForcast += `
+            <div class="weather-forecast-item">
+                <div class="day">${window.moment(day.dt * 1000).format('ddd')}</div>
+                <img src="http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp">Night - ${day.temp.night}&#176;F</div>
+                <div class="temp">Day - ${day.temp.day}&#176;F</div>
+            </div>
+            `
+            saferInnerHTML(weatherForecastEl, otherDaysTemp)
+        }
+    })
 }
