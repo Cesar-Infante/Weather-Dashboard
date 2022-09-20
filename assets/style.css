@@ -59,6 +59,17 @@ body {
     font-weight: 700;
 }
 
+#btn {
+    background: rgba(24, 24, 27, 0.6);
+    color: #eee;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 10px;
+    position: relative;
+    border-radius: 20px;
+}
+
 .current-info .others {
     display: flex;
     flex-direction: column;

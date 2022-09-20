@@ -14,26 +14,37 @@ const currentTempEl = document.getElementById('current-temp')
 dateEl.textContent = moment().format('dddd, MMMM Do, YYYY');
 timeEl.textContent = moment().format('hh:mm A');
 
-function getWeatherData() {
-  if (!navigator.geolocation) {
-    navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-      result.status = "prompt"
-    });
-  }
-  navigator.geolocation.getCurrentPosition((success) => {
+// function getWeatherData() {
+//   navigator.geolocation.getCurrentPosition((success) => {
 
-    let { latitude, longitude } = success.coords;
+//     let { latitude, longitude } = success.coords;
+
+//     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${apiKey}`).then(res => res.json()).then(data => {
+
+//       console.log(data)
+//       showWeatherData(data);
+//     })
+
+//   })
+// }
+
+// getWeatherData()
+
+const weatherBtn = document.getElementById('btn')
+
+weatherBtn.addEventListener('click', function () {
+  navigator.geolocation.getCurrentPosition((success) => {
+    let { latitude, longitude } = success.coords
 
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${apiKey}`).then(res => res.json()).then(data => {
 
       console.log(data)
       showWeatherData(data);
     })
-
   })
-}
+});
 
-getWeatherData()
+
 
 const showWeatherData = (data) => {
   let { humidity, uvi, sunrise, sunset, wind_speed } = data.current
