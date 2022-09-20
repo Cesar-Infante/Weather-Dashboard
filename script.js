@@ -14,3 +14,45 @@ const currentTempEl = document.getElementById('current-temp')
 dateEl.textContent = moment().format('dddd, MMMM Do, YYYY');
 timeEl.textContent = moment().format('hh:mm A');
 
+function getWeatherData() {
+    navigator.geolocation.getCurrentPosition((success) => {
+
+        let { latitude, longitude } = success.coords;
+
+        fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${apiKey}`).then(res => res.json()).then(data => {
+
+            console.log(data)
+            showWeatherData(data);
+        })
+
+    })
+}
+
+getWeatherData()
+
+const showWeatherData = (data) => {
+    let { humidity, pressure, sunrise, sunset, wind_speed } = data.current
+    const template = `
+    <div class="weather-item">
+      <div>Humidity</div>
+      <div>${humidity}</div>
+    </div>
+    <div class="weather-item">
+      <div>Pressure</div>
+      <div>${pressure}</div>
+    </div>
+    <div class="weather-item">
+      <div>wind Speed</div>
+      <div>${wind_speed}</div>
+    </div>
+    <div class="weather-item">
+      <div>Sunrise</div>
+      <div>${window.moment(sunrise * 1000).format('hh:mm a')}</div>
+    </div>
+    <div class="weather-item">
+      <div>Sunset</div>
+      <div>${window.moment(sunset * 1000).format('hh:mm a')}</div>
+    </div>
+    `
+    saferInnerHTML(currentWeatherItemsEl, template)
+}
