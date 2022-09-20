@@ -15,28 +15,33 @@ dateEl.textContent = moment().format('dddd, MMMM Do, YYYY');
 timeEl.textContent = moment().format('hh:mm A');
 
 function getWeatherData() {
-    navigator.geolocation.getCurrentPosition((success) => {
+  if (!navigator.geolocation) {
+    navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+      result.status = "prompt"
+    });
+  }
+  navigator.geolocation.getCurrentPosition((success) => {
 
-        let { latitude, longitude } = success.coords;
+    let { latitude, longitude } = success.coords;
 
-        fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${apiKey}`).then(res => res.json()).then(data => {
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${apiKey}`).then(res => res.json()).then(data => {
 
-            console.log(data)
-            showWeatherData(data);
-        })
-
+      console.log(data)
+      showWeatherData(data);
     })
+
+  })
 }
 
 getWeatherData()
 
 const showWeatherData = (data) => {
-    let { humidity, uvi, sunrise, sunset, wind_speed } = data.current
+  let { humidity, uvi, sunrise, sunset, wind_speed } = data.current
 
-    timeZone.textContent = data.timezone;
-    countryEl.textContent = `${data.lat}N ${data.lon}E`
+  timeZone.textContent = data.timezone;
+  countryEl.textContent = `${data.lat}N ${data.lon}E`
 
-    const template = `
+  const template = `
     <div class="weather-item">
       <div>Humidity</div>
       <div>${humidity}%</div>
@@ -58,12 +63,12 @@ const showWeatherData = (data) => {
       <div>${window.moment(sunset * 1000).format('hh:mm a')}</div>
     </div>
     `
-    saferInnerHTML(currentWeatherItemsEl, template)
+  saferInnerHTML(currentWeatherItemsEl, template)
 
-    let otherDayForcast = ''
-    data.daily.forEach((day, idx) => {
-        if (idx === 0) {
-            const currentTemp = `
+  let otherDayForcast = ''
+  data.daily.forEach((day, idx) => {
+    if (idx === 0) {
+      const currentTemp = `
             <img src="http://openweathermap.org/img/wn//${day.weather[0].icon}@4x.png" alt="weather icon" class="w-icon">
             <div class="other">
                 <div class="day">${window.moment(day.dt * 1000).format('dddd')}</div>
@@ -71,9 +76,9 @@ const showWeatherData = (data) => {
                 <div class="temp">Day - ${day.temp.day}&#176;F</div>
             </div>
             `
-            saferInnerHTML(currentTempEl, currentTemp)
-        } else {
-            const otherDaysTemp = otherDayForcast += `
+      saferInnerHTML(currentTempEl, currentTemp)
+    } else {
+      const otherDaysTemp = otherDayForcast += `
             <div class="weather-forecast-item">
                 <div class="day">${window.moment(day.dt * 1000).format('ddd')}</div>
                 <img src="http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt="weather icon" class="w-icon">
@@ -81,7 +86,7 @@ const showWeatherData = (data) => {
                 <div class="temp">Day - ${day.temp.day}&#176;F</div>
             </div>
             `
-            saferInnerHTML(weatherForecastEl, otherDaysTemp)
-        }
-    })
+      saferInnerHTML(weatherForecastEl, otherDaysTemp)
+    }
+  })
 }
